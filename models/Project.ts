@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
+import mongoose, { Schema, models } from "mongoose"
 
-const ProjectSchema = new mongoose.Schema(
+const ProjectSchema = new Schema(
   {
     name: String,
     client: String,
@@ -11,5 +11,4 @@ const ProjectSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export default mongoose.models.Project ||
-  mongoose.model("Project", ProjectSchema)
+export default models.Project || mongoose.model("Project", ProjectSchema)

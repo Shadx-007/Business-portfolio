@@ -9,8 +9,10 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const body = await req.json()
   await connectDB()
+  const body = await req.json()
+
   const client = await Client.create(body)
+
   return NextResponse.json(client)
 }

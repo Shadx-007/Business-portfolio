@@ -8,9 +8,20 @@ export async function GET(
 ) {
   await connectDB()
 
-  const client = await Client.findOne({
-    _id: params.id,
-  })
+  const client = await Client.findById(params.id)
+
+  if (!client) {
+    return new NextResponse("Client not found", { status: 404 })
+  }
 
   return NextResponse.json(client)
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  await connectDB()
+  await Client.findByIdAndDelete(params.id)
+  return NextResponse.json({ success: true })
 }

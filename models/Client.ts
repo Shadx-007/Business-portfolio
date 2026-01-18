@@ -1,11 +1,7 @@
-import mongoose from "mongoose"
+import mongoose, { Schema, models } from "mongoose"
 
-const ClientSchema = new mongoose.Schema(
+const ClientSchema = new Schema(
   {
-    _id: {
-      type: String, // ⭐ VERY IMPORTANT
-    },
-
     name: String,
     company: String,
     email: String,
@@ -23,5 +19,4 @@ const ClientSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-export default mongoose.models.Client ||
-  mongoose.model("Client", ClientSchema)
+export default models.Client || mongoose.model("Client", ClientSchema)
