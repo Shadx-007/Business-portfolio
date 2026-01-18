@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import connectToDatabase from "@/lib/mongodb"
-import User from "@/models/user"
+import User from "@/models/User"
 import { NextResponse } from "next/server"
 
 export async function POST(req: Request) {
