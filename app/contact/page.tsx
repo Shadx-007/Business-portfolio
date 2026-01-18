@@ -10,18 +10,37 @@ export default function ContactPage() {
   // ✅ STATE
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [mobile, setMobile] = useState("") // ✅ ADDED
+  const [mobile, setMobile] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState("")
 
-  // ✅ SUBMIT HANDLER
+  // ✅ ADDED: DOWNLOAD FUNCTION (ONLY ADD)
+  const downloadForm = () => {
+    const content =
+      `FEEDBACK FORM\n\n` +
+      `Name: ${name}\n` +
+      `Email: ${email}\n` +
+      `Mobile: ${mobile}\n` +
+      `Message: ${message}`
+
+    const blob = new Blob([content], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "feedback.txt"
+    a.click()
+
+    URL.revokeObjectURL(url)
+  }
+
+  // ✅ SUBMIT HANDLER (ONLY ADDED AUTO DOWNLOAD)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setStatus("")
 
-    // ❌ Frontend validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     const mobileRegex = /^[+]?[0-9]{10,15}$/
 
@@ -52,6 +71,10 @@ export default function ContactPage() {
       }
 
       setStatus("Message sent successfully ✅")
+
+      // ✅ ADDED: AUTO DOWNLOAD AFTER SUCCESS
+      downloadForm()
+
       setName("")
       setEmail("")
       setMobile("")
@@ -68,7 +91,7 @@ export default function ContactPage() {
       <div className="grid lg:grid-cols-2 gap-16">
         {/* LEFT INFO */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-4xl md:text-6xl font-bold mb-8">Get in Touch</h1>
+          <h1 className="text-4xl md:text-6xl font-bold mb-8">Feedback</h1>
           <p className="text-muted-foreground mb-12">
             Let's discuss your next project. Our team is ready to help you navigate the digital landscape.
           </p>
@@ -113,7 +136,6 @@ export default function ContactPage() {
             required
           />
 
-          {/* ✅ MOBILE NUMBER */}
           <Input
             placeholder="Mobile Number"
             type="tel"
@@ -130,7 +152,6 @@ export default function ContactPage() {
             required
           />
 
-          {/* STATUS */}
           {status && (
             <p className="text-sm text-center text-primary">{status}</p>
           )}
